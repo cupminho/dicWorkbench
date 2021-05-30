@@ -10,7 +10,7 @@ class DocumentList(generic.ListView):
 
 class DocumentCreate(generic.CreateView):
     model = Document
-    fields = ['title', 'author', 'file']
+    fields = ['title', 'author', 'file', 'status']
     success_url = reverse_lazy('index')
 
 
@@ -20,7 +20,7 @@ class DocumentDetail(generic.DetailView):
 
 class DocumentUpdate(generic.UpdateView):
     model = Document
-    fields = ['title', 'author', 'file']
+    fields = ['title', 'author', 'file', 'status']
     success_url = reverse_lazy('index')
 
 
