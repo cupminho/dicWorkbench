@@ -1,6 +1,7 @@
 from .models import Document
 from django.views import generic
 from django.urls import reverse_lazy
+from django.shortcuts import render
 
 
 class DocumentList(generic.ListView):
@@ -10,7 +11,7 @@ class DocumentList(generic.ListView):
 
 class DocumentCreate(generic.CreateView):
     model = Document
-    fields = ['title', 'author', 'file', 'status']
+    fields = ['title', 'author', 'file']
     success_url = reverse_lazy('index')
 
 

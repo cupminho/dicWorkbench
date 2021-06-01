@@ -4,6 +4,7 @@ from .views import *
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     path('', DocumentList.as_view(), name='index'),
     path('create/', DocumentCreate.as_view(), name='create'),
