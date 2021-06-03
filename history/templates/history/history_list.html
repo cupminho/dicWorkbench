@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}한국민족문화 대백과사전{% endblock %}
+
+{% block content %}
+<!-- 페이지별 제목-->
+<header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
+    <div class="container-xl px-4">
+        <div class="page-header-content pt-4">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-auto mt-4">
+                    <h1 class="page-header-title">
+                        <div class="page-header-icon"><i data-feather="list"></i></div>
+                        한국민족문화 대백과사전
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main page content-->
+<div class="container-xl px-4 mt-n10">
+    <div class="card mb-4">
+        <div class="card-header">한국민족문화 대백과사전 검색</div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                <tr>
+                    <th class="text-center">순번</th>
+                    <th class="text-center">단어</th>
+                    <th class="text-center">원어</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if object_list %}
+                {% for each in object_list %}
+                <tr>
+                    <td class="text-center">{{each.id}}</td>
+                    <td class="text-center">{{each.word}}</td>
+                    <td class="text-center">{{each.original}}</td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
