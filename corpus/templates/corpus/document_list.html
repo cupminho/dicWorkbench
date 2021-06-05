@@ -26,20 +26,21 @@
         <div class="card-header">문서 추가</div>
         <div class="card-body text-center">
             <h5>현재는 텍스트 파일(.txt)만 추가할 수 있습니다.</h5>
-            <a href="{% url 'create' %}" class="btn btn-outline-primary" role="button">문서 추가하기</a>
+            <a class="btn btn-outline-primary" href="{% url 'corpus:create' %}" role="button">문서 추가하기</a>
         </div>
     </div>
     <div class="card mb-4">
         <div class="card-header">문서 확인</div>
         <div class="card-body">
+
             <table id="datatablesSimple">
                 <thead>
                 <tr>
                     <th class="text-center">순번</th>
                     <th class="text-center">제목</th>
-                    <th class="text-center">상태</th>
                     <th class="text-center">등록자</th>
                     <th class="text-center">등록일</th>
+                    <th class="text-center">상태</th>
                     <th class="text-center">작업</th>
                 </tr>
                 </thead>
@@ -49,20 +50,52 @@
                 <tr>
                     <td class="text-center">{{each.id}}</td>
                     <td class="text-center">{{each.title}}</td>
-                    <td class="text-center">{{each.get_status_display}}</td>
                     <td class="text-center">{{each.author}}</td>
                     <td class="text-center">{{each.created_at | date:'Y-m-d'}}</td>
                     <td class="text-center">
-                        <button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="search"></i>
-                        </button>
-                        <a href="{% url 'update' each.id %}" class="btn btn-datatable btn-icon btn-transparent-dark"
+                        {% if each.status == 0 %}
+                        <div class="badge bg-primary text-white rounded-pill">{{each.get_status_display}}</div>
+                        {% elif each.status == 1 %}
+                        <div class="badge bg-warning text-white rounded-pill">{{each.get_status_display}}</div>
+                        {% else %}
+                        <div class="badge bg-info text-white rounded-pill">{{each.get_status_display}}</div>
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-datatable btn-icon btn-transparent-dark" href="/{{ each.id }}"
+                           role="button">
+                            <i data-feather="search"></i>
+                        </a>
+                        <a class="btn btn-datatable btn-icon btn-transparent-dark"
+                           href="{% url 'corpus:update' each.id %}"
                            role="button">
                             <i data-feather="edit"></i>
                         </a>
-                        <a href="{% url 'delete' each.id %}" class="btn btn-datatable btn-icon btn-transparent-dark"
+                        <a class="btn btn-datatable btn-icon btn-transparent-dark "
+                           data-bs-target="#deleteModal{{each.id}}" data-bs-toggle="modal"
                            role="button">
                             <i data-feather="trash-2"></i>
                         </a>
+                        <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade"
+                             id="deleteModal{{each.id}}"
+                             role="dialog"
+                             tabindex="-1">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">파일명 - {{ each.title }}</h5>
+                                        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                                type="button"></button>
+                                    </div>
+                                    <div class="modal-body">이 문서를 삭제하시겠습니까?</div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">아니오
+                                        </button>
+                                        <button class="btn btn-primary" type="button">예</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 {% endfor %}

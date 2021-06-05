@@ -1,33 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{object.title}}</title>
-</head>
-<body>
-    <div>
-        <div>title</div>
-        <div>{{object.title}}</div>
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} 문서 상세보기 {% endblock %}
+
+{% block content %}
+
+
+<!-- 페이지별 제목-->
+<header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
+    <div class="container-xl px-4">
+        <div class="page-header-content pt-4">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-auto mt-4">
+                    <h1 class="page-header-title">
+                        <div class="page-header-icon"><i data-feather="upload"></i></div>
+                        문서명 - {{object.title}}
+                    </h1>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <div>author</div>
-        <div>{{object.author}}</div>
+</header>
+<div class="container-xl px-4 mt-n10">
+    <div class="card card-waves">
+        <div class="card-header">문서 선택하기</div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="저장">
+                <input type="reset" value="취소">
+            </form>
+        </div>
     </div>
-    <div>
-        <div>content</div>
-        <div>{{object.file}}</div>
-    </div>
-    <div>
-        <div>created_at</div>
-        <div>{{object.created_at}}</div>
-    </div>
-    <div>
-        <div>modified_at</div>
-        <div>{{object.modified_at}}</div>
-    </div>
-    <div>
-        <a href="{% url 'update' object.id %}">수정</a>
-        <a href="{% url 'delete' object.id %}">삭제</a>
-    </div>
-</body>
-</html>
+</div>
+{% endblock %}

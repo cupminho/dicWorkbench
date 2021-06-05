@@ -1,8 +1,8 @@
 from .models import Document
+from .forms import DocumentForm
+
 from django.views import generic
 from django.urls import reverse_lazy
-from django.shortcuts import render
-
 
 class DocumentList(generic.ListView):
     model = Document
@@ -11,8 +11,8 @@ class DocumentList(generic.ListView):
 
 class DocumentCreate(generic.CreateView):
     model = Document
-    fields = ['title', 'author', 'file']
-    success_url = reverse_lazy('index')
+    form_class = DocumentForm
+    success_url = reverse_lazy('corpus:index')
 
 
 class DocumentDetail(generic.DetailView):
@@ -22,9 +22,9 @@ class DocumentDetail(generic.DetailView):
 class DocumentUpdate(generic.UpdateView):
     model = Document
     fields = ['title', 'author', 'file', 'status']
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('corpus:index')
 
 
 class DocumentDelete(generic.DeleteView):
     model = Document
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('corpus:index')

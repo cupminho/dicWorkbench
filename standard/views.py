@@ -1,10 +1,21 @@
+from django.views.generic import ListView, FormView
+from django.db.models import Q
+from django.shortcuts import  render
+
 from .models import Standard
-from django.views import generic
-from django.urls import reverse_lazy
-from django.shortcuts import render
+from .forms import StandardForm
 
+class StandardFormView(FormView):
+    form_class = StandardForm
+    template_name = 'standard/standard_list.html'
 
-class StandardList(generic.ListView):
-    model = Standard
-    ordering = ['id']
-    paginate_by = 100
+    def form_valid(self, form):
+        searchWord = form.cleaned_data['search_word']
+        word_list = Standard.objects.filter(Q(word__icontains=searchWord)).distinct()
+
+        context = {}
+        context['form'] = form
+        context['search_term'] = searchWord
+        context['object_list'] = word_list
+
+        return render(self.request, self.template_name, context)

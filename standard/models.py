@@ -7,3 +7,5 @@ class Standard(models.Model):
     original = models.CharField(max_length=120, null=False)
     definition = models.TextField()
 
+    def __str__(self):
+        return self.word
